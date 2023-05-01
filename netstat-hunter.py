@@ -1,4 +1,5 @@
 import argparse
+import requests
 
 print("     __     _       _        _     _                 _            ")
 print("  /\ \ \___| |_ ___| |_ __ _| |_  | |__  _   _ _ __ | |_ ___ _ __ ")
@@ -8,7 +9,18 @@ print("\_\ \/ \___|\__|___/\__\__,_|\__| |_| |_|\__,_|_| |_|\__\___|_|   ")
 
 def config(api_key):
     # Lógica para configurar a API aqui
-    print("Configurar API selecionada")
+    url = 'https://www.virustotal.com/vtapi/v2/ip-address/report'
+    ip = '8.8.8.8'
+    params = {'apikey': api_key, 'ip': ip}
+    response = requests.get(url, params=params)
+
+    if response.status_code == 200:
+        print(response.json())
+    elif response.status_code == 403:
+        print('Acesso negado: verifique a chave de API')
+    else:
+        print('Erro ao fazer a consulta de IP')
+    
 
 def execute():
     netstat()
