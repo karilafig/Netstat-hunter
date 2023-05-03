@@ -1,4 +1,5 @@
 import argparse
+import time
 import requests
 import re
 import subprocess
@@ -24,7 +25,8 @@ def config(ip):
         print('Acesso negado: verifique a chave de API')
     else:
         print('Erro ao fazer a consulta de IP')
-
+    
+    time.sleep(15) # Atraso de 15 segundos entre cada chamada
 def execute():
     non_internal_ips = netstat()
     for ip in non_internal_ips:
