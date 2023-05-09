@@ -10,6 +10,7 @@ print(" /  \/ / _ \ __/ __| __/ _` | __| | '_ \| | | | '_ \| __/ _ \ '__|")
 print("/ /\  /  __/ |_\__ \ || (_| | |_  | | | | |_| | | | | ||  __/ |   ")
 print("\_\ \/ \___|\__|___/\__\__,_|\__| |_| |_|\__,_|_| |_|\__\___|_|   ")
 
+#Variaveis globais para buffer da chave de api
 API_KEY_BUFFER = ""
 LAST_UPDATE = 0
 
@@ -31,7 +32,17 @@ def config(ip):
     response = requests.get(url, params=params)
 
     if response.status_code == 200:
-        print(response.json())
+        json_data = response.json()
+        print('----- IP:'+ ip + '----- ')
+        print('País:'+ response.json()['country'])
+        
+        detected_urls = response.json()['detected_urls']
+        for url in detected_urls:
+                print('URL:', url['url'])
+                print('Positives:', url['positives'])
+                print('Total:', url['total'])
+                print('Scan date:', url['scan_date'])
+
     elif response.status_code == 403:
         print('Acesso negado: verifique a chave de API')
     else:
