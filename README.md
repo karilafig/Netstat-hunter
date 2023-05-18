@@ -4,8 +4,10 @@ Projeto em construção para desenvolvimento de um script que busca e filtra IPs
 ## Tecnologias utilizadas
 <div>
  <img alt="PYTHON" src="https://img.shields.io/badge/Python-14354C?style=for-the-badge&logo=python&logoColor=white">
- <img alt="HTML" src="https://img.shields.io/badge/Windows-017AD7?style=for-the-badge&logo=windows&logoColor=white">
  </div>
  
+ ## SO compatível
+  <img alt="Windows" src="https://img.shields.io/badge/Windows-017AD7?style=for-the-badge&logo=windows&logoColor=white">
+  
  ## Status
 <img alt="Status" src="https://img.shields.io/badge/In%20Progress-eead2d?style=for-the-badge">
