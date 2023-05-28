@@ -1,8 +1,8 @@
-import time
 import requests
 import re
 import subprocess
 import argparse
+import time
 
 print("     __     _       _        _     _                 _            ")
 print("  /\ \ \___| |_ ___| |_ __ _| |_  | |__  _   _ _ __ | |_ ___ _ __ ")
@@ -10,22 +10,7 @@ print(" /  \/ / _ \ __/ __| __/ _` | __| | '_ \| | | | '_ \| __/ _ \ '__|")
 print("/ /\  /  __/ |_\__ \ || (_| | |_  | | | | |_| | | | | ||  __/ |   ")
 print("\_\ \/ \___|\__|___/\__\__,_|\__| |_| |_|\__,_|_| |_|\__\___|_|   ")
 
-#Variaveis globais para buffer da chave de api
-API_KEY_BUFFER = ""
-LAST_UPDATE = 0
-
-def config(ip):
-    global API_KEY_BUFFER, LAST_UPDATE
-
-    # Se o buffer não está vazio e já se passou menos de 30 minutos desde a última atualização, utiliza o valor armazenado
-    if API_KEY_BUFFER != "" and time.time() - LAST_UPDATE < 1800:
-        api_key = API_KEY_BUFFER
-    else:
-        # Se não, solicita a chave de API ao usuário
-        api_key = input("Digite a chave de API: ")
-        API_KEY_BUFFER = api_key
-        LAST_UPDATE = time.time()
-
+def config(ip, api_key):
     # Faz a consulta do IP utilizando a API
     url = 'https://www.virustotal.com/vtapi/v2/ip-address/report'
     params = {'apikey': api_key, 'ip': ip}
@@ -38,10 +23,10 @@ def config(ip):
         
         detected_urls = response.json()['detected_urls']
         for url in detected_urls:
-                print('URL:', url['url'])
-                print('Positives:', url['positives'])
-                print('Total:', url['total'])
-                print('Scan date:', url['scan_date'])
+            print('URL:', url['url'])
+            print('Positives:', url['positives'])
+            print('Total:', url['total'])
+            print('Scan date:', url['scan_date'])
 
     elif response.status_code == 403:
         print('Acesso negado: verifique a chave de API')
@@ -53,7 +38,7 @@ def config(ip):
 def execute(api_key):
     non_internal_ips = netstat()
     for ip in non_internal_ips:
-        config(ip)
+        config(ip, api_key)
     print("Executar selecionado")
 
 def netstat():
@@ -76,10 +61,6 @@ parser.add_argument('--key', dest='api_key', help='Chave da API para configuraç
 
 # Analisa os argumentos de linha de comando
 args = parser.parse_args()
-
-# Define o valor da variável global 'API_KEY_BUFFER'
-if args.api_key:
-    API_KEY_BUFFER = args.api_key
 
 # Chama a função correspondente ao argumento de linha de linha de comando
 if args.api_key:
